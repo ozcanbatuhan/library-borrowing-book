@@ -25,7 +25,6 @@ export class BookController {
         throw new HttpError(404, 'Book not found');
       }
 
-      // get borrowing history with user details
       const borrowingHistory = await prisma.borrowingRecord.findMany({
         where: {
           bookId: book.id,
@@ -49,7 +48,7 @@ export class BookController {
         },
       });
 
-      // calculate average score of book
+      // average score of book calculate
       const bookRatings = await prisma.borrowingRecord.findMany({
         where: {
           bookId: book.id,
@@ -63,8 +62,8 @@ export class BookController {
       });
 
       const averageRating = bookRatings.length > 0
-        ? bookRatings.reduce((acc: number, curr) => 
-            acc + (curr.rating ? parseFloat(curr.rating.toString()) : 0), 0) / bookRatings.length
+        ? Number((bookRatings.reduce((acc: number, curr) => 
+            acc + (curr.rating ? Number(curr.rating.toString()) : 0), 0) / bookRatings.length).toFixed(2))
         : -1;
 
       res.json({

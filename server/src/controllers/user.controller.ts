@@ -14,6 +14,21 @@ export class UserController {
     }
   }
 
+  async getUserNames(req: Request, res: Response) {
+    try {
+      const users = await prisma.user.findMany({
+        select: {
+          id: true,
+          firstName: true,
+          lastName: true
+        }
+      });
+      res.json(users);
+    } catch (error) {
+      throw new HttpError(500, 'Failed to fetch user names');
+    }
+  }
+
   async getUserById(req: Request, res: Response) {
     try {
       const { id } = req.params;

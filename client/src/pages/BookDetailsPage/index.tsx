@@ -192,7 +192,7 @@ const BookDetailsPage = () => {
                 <Typography variant="body2" sx={{ ml: 1 }}>
                   {book.averageRating === null || book.averageRating === -1
                     ? 'No ratings yet'
-                    : `(${Number(book.averageRating).toFixed(1)})`}
+                    : `(${Number(book.averageRating).toFixed(2)})`}
                 </Typography>
               </Box>
             </Grid>

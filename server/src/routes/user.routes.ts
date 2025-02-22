@@ -4,8 +4,11 @@ import { UserController } from '../controllers/user.controller';
 const router = Router();
 const userController = new UserController();
 
-// get all user
-router.get('/', userController.getAllUsers);
+// get all users with full details
+router.get('/getAllUsers', userController.getAllUsers);
+
+// get only user names
+router.get('/', userController.getUserNames);
 
 // get user by id
 router.get('/:id', userController.getUserById);

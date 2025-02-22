@@ -96,17 +96,17 @@ async function main() {
   // Create Borrowing Records
   await prisma.borrowingRecord.create({
     data: {
-      userId: user2.id, // Enes Faruk Meniz
+      userId: user2.id, 
       bookId: book1.id,
       borrowDate: new Date('2024-02-01'),
       returnDate: new Date('2024-02-15'),
-      rating: 4.5,
+      rating: 4.50,
     },
   });
 
   await prisma.borrowingRecord.create({
     data: {
-      userId: user1.id, // Eray Aslan
+      userId: user1.id, 
       bookId: book2.id,
       borrowDate: new Date('2024-02-10'),
       returnDate: null,
@@ -115,25 +115,25 @@ async function main() {
 
   await prisma.borrowingRecord.create({
     data: {
-      userId: user4.id, // Kadir Mutlu
+      userId: user4.id,
       bookId: book3.id,
       borrowDate: new Date('2024-01-15'),
       returnDate: new Date('2024-01-30'),
-      rating: 5,
+      rating: 5.00,
     },
   });
 
   await prisma.borrowingRecord.create({
     data: {
-      userId: user3.id, // Sefa Eren Şahin
+      userId: user3.id,
       bookId: book4.id,
       borrowDate: new Date('2024-03-01'),
       returnDate: new Date('2024-03-15'),
-      rating: 4,
+      rating: 4.00,
     },
   });
 
-  // Update available quantities
+  
   await prisma.book.update({
     where: { id: book2.id },
     data: { availableQuantity: 1 },

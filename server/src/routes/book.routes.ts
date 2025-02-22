@@ -13,7 +13,7 @@ router.get('/:id', bookController.getBookById);
 // new book
 router.post('/', bookController.createBook);
 
-// update book
+// update Book
 router.put('/:id', bookController.updateBook);
 
 // delete

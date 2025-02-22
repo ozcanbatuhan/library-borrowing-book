@@ -9,19 +9,17 @@ import { errorHandler } from './middleware/error.middleware';
 const app = express();
 const prisma = new PrismaClient();
 
-// Middleware
+// Middleware start
 app.use(cors());
 app.use(express.json());
 app.use(morgan('dev'));
+// Middleware end
 
-// Routes
 app.use('/users', userRoutes);
 app.use('/books', bookRoutes);
 
-// Error handling
 app.use(errorHandler as express.ErrorRequestHandler);
 
-// Start server
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

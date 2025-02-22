@@ -13,7 +13,6 @@ export const borrowBook = async (
   try {
     const { userId, bookId } = req.body;
 
-    // checking if book exists and is available
     const book = await prisma.book.findUnique({
       where: { id: bookId },
     });
@@ -48,7 +47,7 @@ export const borrowBook = async (
       throw new HttpError(400, 'User already has this book');
     }
 
-    // create borrowing record and update book availability in a transaction
+    // create borrowing record and update book availability
     const borrowing = await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
       const borrowingRecord = await tx.borrowingRecord.create({
         data: {
@@ -105,7 +104,7 @@ export const returnBook = async (
       throw new HttpError(400, 'Book has already been returned');
     }
 
-    // return book and update book availability in a transaction
+    // return book and update book availability
     const updatedBorrowing = await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
       // Update borrowing record
       const returnedBorrowing = await tx.borrowingRecord.update({

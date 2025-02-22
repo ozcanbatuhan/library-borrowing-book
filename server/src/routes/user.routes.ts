@@ -4,7 +4,7 @@ import { UserController } from '../controllers/user.controller';
 const router = Router();
 const userController = new UserController();
 
-// get all users with full details
+// get all users w details
 router.get('/getAllUsers', userController.getAllUsers);
 
 // get only user names

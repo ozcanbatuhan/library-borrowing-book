@@ -2,12 +2,32 @@
 
 A comprehensive library management application developed to manage members and the borrowing of books by members. The system is designed for library staff to manage book lending and returns efficiently.
 
+## Technologies Used
+
+### Frontend
+- React.js (v19.0.0)
+- TypeScript
+- Material UI (v6.4.5)
+- Redux Toolkit for state management
+- Axios for API calls
+- SCSS for styling
+- React Router DOM (v7.2.0)
+
+### Backend
+- Node.js (v14 or higher)
+- Express.js
+- TypeScript
+- Prisma ORM
+- PostgreSQL
+- RESTful API architecture
+
 ## Prerequisites
 
 Before you begin, ensure you have the following installed:
 - Node.js (v14 or higher)
 - PostgreSQL (v12 or higher)
 - npm (usually comes with Node.js)
+- Git
 
 ## Installation & Setup
 
@@ -18,11 +38,22 @@ cd library-borrowing-book
 ```
 
 ### 2. Database Setup
-1. Create a PostgreSQL database named 'library':
+1. Install PostgreSQL if not already installed:
+   - Windows: Download and install from [PostgreSQL Official Website](https://www.postgresql.org/download/windows/)
+   - Mac: `brew install postgresql`
+   - Linux: `sudo apt-get install postgresql`
+
+2. Start PostgreSQL service:
+   - Windows: PostgreSQL service should start automatically
+   - Mac: `brew services start postgresql`
+   - Linux: `sudo service postgresql start`
+
+3. Create a PostgreSQL database named 'library':
 ```bash
-psql -U postgres -c "CREATE DATABASE library"
+psql -U postgres
+CREATE DATABASE library;
+\q
 ```
-Note: You'll be prompted for your PostgreSQL password.
 
 ### 3. Backend Setup
 1. Navigate to the server directory:
@@ -36,23 +67,31 @@ npm install
 ```
 
 3. Create a .env file in the server directory:
-```bash
-# server/.env
+```env
 DATABASE_URL="postgresql://postgres:your_password@localhost:5432/library"
-PORT=3001
+PORT=3000
 ```
 Replace 'your_password' with your PostgreSQL password.
 
-4. Run database migrations:
+4. Generate Prisma Client:
 ```bash
-npx prisma migrate dev --name init
+npx prisma generate
 ```
 
-5. Start the backend server:
+5. Run database migrations:
+```bash
+npx prisma migrate dev
+```
+This command will:
+- Apply all migrations
+- Generate Prisma Client
+- Seed the database with initial data
+
+6. Start the backend server:
 ```bash
 npm run dev
 ```
-The server will start on http://localhost:3001
+The server will start on http://localhost:3000
 
 ### 4. Frontend Setup
 1. Open a new terminal and navigate to the client directory:
@@ -65,59 +104,81 @@ cd client
 npm install
 ```
 
-3. Start the frontend application:
+3. Create a .env file in the client directory (if needed):
+```env
+REACT_APP_API_URL=http://localhost:3000
+```
+
+4. Start the frontend application:
 ```bash
 npm start
 ```
-The application will open in your browser at http://localhost:3000
+The application will open in your browser at http://localhost:3001
 
 ## Features
 
-- User Management
-  - List all registered users
-  - View user details and borrowing history
-  - View user ratings for books
-- Book Management
-  - List all available books
-  - View book details (author, year, current owner, ratings)
-  - Lend books to users
-  - Process book returns
+### User Management
+- List all registered users
+- View user details and borrowing history
+- Add, edit, and delete users
+- View user ratings for books
 
-## Tech Stack
+### Book Management
+- List all available books
+- View book details (author, year, current borrowers, ratings)
+- Add, edit, and delete books
+- Track book availability
+- View book borrowing history
 
-### Frontend
-- React.js with TypeScript
-- Material UI for components
-- Redux for state management
-- SCSS for styling
-- React Router for navigation
-
-### Backend
-- Node.js with Express
-- TypeScript
-- Prisma ORM
-- PostgreSQL database
-- RESTful API
+### Borrowing System
+- Borrow books for users
+- Return books with ratings
+- Track borrowing history
+- Multiple copies support
+- Rating system (1-5 stars, with decimals)
 
 ## API Endpoints
 
 ### Users
-- GET `/api/users` - Get all users
-- GET `/api/users/:id` - Get user by ID
-- POST `/api/users` - Create new user
-- PUT `/api/users/:id` - Update user
-- DELETE `/api/users/:id` - Delete user
-- GET `/api/users/:id/borrowings` - Get user's borrowing history
+- GET `/users` - Get user names
+- GET `/users/getAllUsers` - Get all users with full details
+- GET `/users/:id` - Get user by ID
+- POST `/users` - Create new user
+- PUT `/users/:id` - Update user
+- DELETE `/users/:id` - Delete user
+- GET `/users/:id/borrowings` - Get user's borrowing history
 
 ### Books
-- GET `/api/books` - Get all books
-- GET `/api/books/:id` - Get book by ID
-- POST `/api/books` - Create new book
-- PUT `/api/books/:id` - Update book
-- DELETE `/api/books/:id` - Delete book
-- GET `/api/books/:id/borrowings` - Get book's borrowing history
-- POST `/api/books/:id/borrow` - Borrow a book
-- POST `/api/books/:id/return` - Return a book
+- GET `/books` - Get all books
+- GET `/books/:id` - Get book by ID
+- POST `/books` - Create new book
+- PUT `/books/:id` - Update book
+- DELETE `/books/:id` - Delete book
+- GET `/books/:id/borrowings` - Get book's borrowing history
+- POST `/books/:id/borrow` - Borrow a book
+- POST `/books/:id/return` - Return a book
+
+## Common Issues & Troubleshooting
+
+1. **Database Connection Error**
+   - Verify PostgreSQL is running
+   - Check your database credentials in .env file
+   - Ensure the database 'library' exists
+   - Make sure your PostgreSQL password is correct in the DATABASE_URL
+
+2. **Port Already in Use**
+   - Backend: Change PORT in .env file
+   - Frontend: The application is configured to run on port 3001
+
+3. **Prisma Migration Error**
+   - Try resetting the database: `npx prisma migrate reset`
+   - Ensure your PostgreSQL user has the necessary permissions
+   - If issues persist, delete the migrations folder and run `npx prisma migrate dev` again
+
+4. **Frontend Can't Connect to Backend**
+   - Verify both frontend and backend are running
+   - Check if the backend URL in the frontend's .env file is correct
+   - Ensure CORS is properly configured
 
 ## Project Structure
 
@@ -128,6 +189,7 @@ library-borrowing-book/
 │   │   ├── components/    # React components
 │   │   ├── pages/        # Page components
 │   │   ├── redux/        # Redux store and slices
+│   │   ├── services/     # API services
 │   │   ├── styles/       # SCSS styles
 │   │   └── types/        # TypeScript types
 │   └── public/           # Static assets
@@ -140,21 +202,6 @@ library-borrowing-book/
     └── prisma/          # Database schema and migrations
 ```
 
-## Common Issues & Troubleshooting
-
-1. **Database Connection Error**
-   - Verify PostgreSQL is running
-   - Check your database credentials in .env file
-   - Ensure the database 'library' exists
-
-2. **Port Already in Use**
-   - Backend: Change PORT in .env file
-   - Frontend: Use `PORT=3001 npm start` to run on a different port
-
-3. **Prisma Migration Error**
-   - Delete the migrations folder and run `npx prisma migrate dev` again
-   - Ensure your PostgreSQL user has the necessary permissions
-
 ## Contributing
 
 1. Fork the repository
@@ -162,3 +209,7 @@ library-borrowing-book/
 3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
+
+## License
+
+This project is licensed under the ISC License.

@@ -15,8 +15,8 @@ app.use(express.json());
 app.use(morgan('dev'));
 
 // Routes
-app.use('/api/users', userRoutes);
-app.use('/api/books', bookRoutes);
+app.use('/users', userRoutes);
+app.use('/books', bookRoutes);
 
 // Error handling
 app.use(errorHandler as express.ErrorRequestHandler);

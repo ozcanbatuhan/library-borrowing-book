@@ -1,3 +1,4 @@
+/// <reference types="node" />
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
@@ -6,22 +7,82 @@ async function main() {
   // Create Users
   const user1 = await prisma.user.create({
     data: {
-      firstName: 'John',
-      lastName: 'Doe',
-      email: 'john.doe@example.com',
+      firstName: 'Eray',
+      lastName: 'Aslan',
+      email: 'eray.aslan@example.com',
     },
   });
 
   const user2 = await prisma.user.create({
     data: {
-      firstName: 'Jane',
-      lastName: 'Smith',
-      email: 'jane.smith@example.com',
+      firstName: 'Enes Faruk',
+      lastName: 'Meniz',
+      email: 'enesfaruk.meniz@example.com',
+    },
+  });
+
+  const user3 = await prisma.user.create({
+    data: {
+      firstName: 'Sefa Eren',
+      lastName: 'Şahin',
+      email: 'sefaeren.sahin@example.com',
+    },
+  });
+
+  const user4 = await prisma.user.create({
+    data: {
+      firstName: 'Kadir',
+      lastName: 'Mutlu',
+      email: 'kadir.mutlu@example.com',
     },
   });
 
   // Create Books
   const book1 = await prisma.book.create({
+    data: {
+      title: 'The Hitchhiker\'s Guide to the Galaxy',
+      author: 'Douglas Adams',
+      isbn: '978-0345391803',
+      publishYear: 1979,
+      quantity: 3,
+      availableQuantity: 3,
+    },
+  });
+
+  const book2 = await prisma.book.create({
+    data: {
+      title: 'I, Robot',
+      author: 'Isaac Asimov',
+      isbn: '978-0553382563',
+      publishYear: 1950,
+      quantity: 2,
+      availableQuantity: 2,
+    },
+  });
+
+  const book3 = await prisma.book.create({
+    data: {
+      title: 'Dune',
+      author: 'Frank Herbert',
+      isbn: '978-0441172719',
+      publishYear: 1965,
+      quantity: 4,
+      availableQuantity: 4,
+    },
+  });
+
+  const book4 = await prisma.book.create({
+    data: {
+      title: 'Brave New World',
+      author: 'Aldous Huxley',
+      isbn: '978-0060850524',
+      publishYear: 1932,
+      quantity: 3,
+      availableQuantity: 3,
+    },
+  });
+
+  const book5 = await prisma.book.create({
     data: {
       title: '1984',
       author: 'George Orwell',
@@ -32,42 +93,20 @@ async function main() {
     },
   });
 
-  const book2 = await prisma.book.create({
-    data: {
-      title: 'To Kill a Mockingbird',
-      author: 'Harper Lee',
-      isbn: '978-0446310789',
-      publishYear: 1960,
-      quantity: 2,
-      availableQuantity: 2,
-    },
-  });
-
-  const book3 = await prisma.book.create({
-    data: {
-      title: 'The Great Gatsby',
-      author: 'F. Scott Fitzgerald',
-      isbn: '978-0743273565',
-      publishYear: 1925,
-      quantity: 4,
-      availableQuantity: 4,
-    },
-  });
-
   // Create Borrowing Records
   await prisma.borrowingRecord.create({
     data: {
-      userId: user1.id,
+      userId: user2.id, // Enes Faruk Meniz
       bookId: book1.id,
       borrowDate: new Date('2024-02-01'),
       returnDate: new Date('2024-02-15'),
-      rating: 5,
+      rating: 4.5,
     },
   });
 
   await prisma.borrowingRecord.create({
     data: {
-      userId: user2.id,
+      userId: user1.id, // Eray Aslan
       bookId: book2.id,
       borrowDate: new Date('2024-02-10'),
       returnDate: null,
@@ -76,10 +115,20 @@ async function main() {
 
   await prisma.borrowingRecord.create({
     data: {
-      userId: user1.id,
+      userId: user4.id, // Kadir Mutlu
       bookId: book3.id,
       borrowDate: new Date('2024-01-15'),
       returnDate: new Date('2024-01-30'),
+      rating: 5,
+    },
+  });
+
+  await prisma.borrowingRecord.create({
+    data: {
+      userId: user3.id, // Sefa Eren Şahin
+      bookId: book4.id,
+      borrowDate: new Date('2024-03-01'),
+      returnDate: new Date('2024-03-15'),
       rating: 4,
     },
   });

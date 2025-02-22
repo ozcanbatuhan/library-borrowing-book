@@ -196,16 +196,21 @@ const BookDetailsPage = () => {
                 </Typography>
               </Box>
             </Grid>
-            {book.currentBorrower && (
-              <Grid item xs={12}>
-                <Typography variant="subtitle1" color="text.secondary">
-                  Currently Borrowed By
-                </Typography>
-                <Typography variant="h6">
-                  {`${book.currentBorrower.firstName} ${book.currentBorrower.lastName}`}
-                </Typography>
-              </Grid>
-            )}
+            <Grid item xs={12}>
+              <Typography variant="subtitle1" color="text.secondary">
+                Currently Borrowed By
+              </Typography>
+              {book.currentBorrowers.length > 0 ? (
+                book.currentBorrowers.map((borrower, index) => (
+                  <Typography key={borrower.id} variant="h6">
+                    {`${borrower.firstName} ${borrower.lastName}`}
+                    {index < book.currentBorrowers.length - 1 ? ', ' : ''}
+                  </Typography>
+                ))
+              ) : (
+                <Typography variant="h6">Not currently borrowed</Typography>
+              )}
+            </Grid>
           </Grid>
 
           {(book.availableQuantity || 0) > 0 && (

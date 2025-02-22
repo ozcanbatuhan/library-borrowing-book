@@ -33,7 +33,7 @@ export interface BorrowingRecord {
 }
 
 export interface BookDetails extends Book {
-  currentBorrower: User | null;
+  currentBorrowers: User[];
   averageRating: number | null;
   borrowingHistory: BorrowingRecord[];
 }

@@ -37,8 +37,8 @@ export class BookController {
         },
       });
 
-      // get current borrower if exists
-      const currentBorrowing = await prisma.borrowingRecord.findFirst({
+      // get all current borrowers
+      const currentBorrowings = await prisma.borrowingRecord.findMany({
         where: {
           bookId: book.id,
           returnDate: null,
@@ -68,7 +68,7 @@ export class BookController {
 
       res.json({
         ...book,
-        currentBorrower: currentBorrowing?.user || null,
+        currentBorrowers: currentBorrowings.map(b => b.user) || [],
         averageRating,
         borrowingHistory,
       });
